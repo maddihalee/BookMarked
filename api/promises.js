@@ -24,4 +24,16 @@ const getBooks = (query) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-export default getBooks;
+const getSingleBook = (id) => new Promise((resolve, reject) => {
+  fetch(`${dbUrl}/volumes/${id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => resolve(data))
+    .catch(reject);
+});
+
+export { getBooks, getSingleBook };

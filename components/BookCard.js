@@ -1,20 +1,48 @@
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+import Link from 'next/link';
 import PropTypes from 'prop-types';
 
 export default function BookCard({ bookObj }) {
   return (
-    <Card style={{ width: '18rem' }}>
-      <Card.Img variant="top" src={bookObj.volumeInfo.imageLinks.thumbnail} />
-      <Card.Body>
-        <Card.Title>{bookObj.volumeInfo.title}</Card.Title>
-        <Card.Text>
-          {bookObj.volumeInfo.authors}
-          {bookObj.volumeInfo.description}
-        </Card.Text>
-        <Button variant="primary">Go somewhere</Button>
-      </Card.Body>
-    </Card>
+    <>
+      <Link href={`/${bookObj.id}`} passHref>
+        <Card
+          style={{
+            height: '400px',
+            width: '250px',
+            margin: '10px',
+            cursor: 'pointer',
+            background: 'white',
+          }}
+          className="bookCard"
+        >
+          <Card.Img
+            style={{
+              height: '300px',
+              width: '250px',
+            }}
+            variant="top"
+            src={bookObj.volumeInfo.imageLinks.smallThumbnail}
+          />
+          <Card.Body>
+            <Card.Title>{bookObj.volumeInfo.title}</Card.Title>
+            <Card.Text>
+              {bookObj.volumeInfo.authors}
+            </Card.Text>
+            <Link href="/TBR" passHref>
+              <Button variant="primary">TBR</Button>
+            </Link>
+            <Link href="/currentlyReading" passHref>
+              <Button variant="primary">Reading</Button>
+            </Link>
+            <Link href="/read" passHref>
+              <Button variant="primary">Read</Button>
+            </Link>
+          </Card.Body>
+        </Card>
+      </Link>
+    </>
   );
 }
 
