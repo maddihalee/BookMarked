@@ -1,7 +1,5 @@
-import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import BookCard from './BookCard';
-import getBooks from '../api/promises';
 
 export default function SearchBar({ books, query, setQuery }) {
   const handleChange = (e) => {
@@ -9,23 +7,7 @@ export default function SearchBar({ books, query, setQuery }) {
   };
 
   const filteredBooks = books.filter((book) => book.volumeInfo.title.toLowerCase().includes(query.toLowerCase()));
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   setFilterBooks(filteredBooks);
-  // };
-
-  // useEffect(() => {
-  //   getBooks(query).then((bookObject) => setBookObj(Object.values(bookObject)));
-  // }, [query]);
-
-  // useEffect(() => {
-  //   filteredBooks
-  // })
-
-  console.warn(query);
-  console.warn(books);
-
+  console.warn(filteredBooks);
   return (
     <>
       {/* <form> */}
@@ -37,11 +19,10 @@ export default function SearchBar({ books, query, setQuery }) {
       />
       {/* <button type="submit">Search</button>
       </form> */}
-      <div>
+      <div className="filteredBooks">
         {filteredBooks?.map((filterBook) => (<BookCard bookObj={filterBook} />))}
       </div>
     </>
-    // Call bookObj in book card component, bookObj.author, bookObj.title, etc. )}
   );
 }
 
