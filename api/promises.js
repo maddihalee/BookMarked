@@ -25,7 +25,7 @@ const getBooks = (query) => new Promise((resolve, reject) => {
 });
 
 const getSingleBook = (id) => new Promise((resolve, reject) => {
-  fetch(`${dbUrl}/volumes/${id}`, {
+  fetch(`${dbUrl}/volumes/${id}?key=${apiGoogleKey}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
