@@ -1,42 +1,44 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import BookCard from './BookCard';
-// import getBooks from '../api/promises';
+import getBooks from '../api/promises';
 
-export default function SearchBar({ books }) {
-  const [query, setQuery] = useState('');
-  const [filterBooks, setFilterBooks] = useState([]);
-  // const [bookObj, setBookObj] = useState([]);
-
+export default function SearchBar({ books, query, setQuery }) {
   const handleChange = (e) => {
     setQuery(e.target.value);
   };
 
   const filteredBooks = books.filter((book) => book.volumeInfo.title.toLowerCase().includes(query.toLowerCase()));
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setFilterBooks(filteredBooks);
-  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  //   setFilterBooks(filteredBooks);
+  // };
 
   // useEffect(() => {
-  //   getBooks().then((bookObject) => setBookObj(Object.values(bookObject)));
-  // }, []);
+  //   getBooks(query).then((bookObject) => setBookObj(Object.values(bookObject)));
+  // }, [query]);
 
+  // useEffect(() => {
+  //   filteredBooks
+  // })
+
+  console.warn(query);
   console.warn(books);
+
   return (
     <>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={query}
-          onChange={handleChange}
-          placeholder="Search Books..."
-        />
-        <button type="submit">Search</button>
-      </form>
+      {/* <form> */}
+      <input
+        type="text"
+        value={query}
+        onChange={handleChange}
+        placeholder="Search Books..."
+      />
+      {/* <button type="submit">Search</button>
+      </form> */}
       <div>
-        {filterBooks.map((filterBook) => <BookCard bookObj={filterBook} />)}
+        {filteredBooks?.map((filterBook) => (<BookCard bookObj={filterBook} />))}
       </div>
     </>
     // Call bookObj in book card component, bookObj.author, bookObj.title, etc. )}
@@ -52,8 +54,12 @@ SearchBar.propTypes = {
       description: PropTypes.string,
     }),
   ),
+  query: PropTypes.string,
+  setQuery: PropTypes.func,
 };
 
 SearchBar.defaultProps = {
   books: [],
+  query: '',
+  setQuery: () => {},
 };
