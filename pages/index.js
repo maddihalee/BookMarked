@@ -2,7 +2,7 @@
 // import { signOut } from '../utils/auth'; // TODO: COMMENT IN FOR AUTH
 import { useEffect, useState } from 'react';
 // import PropTypes from 'prop-types';
-import getBooks from '../api/promises';
+import { getBooks } from '../api/promises';
 import SearchBar from '../components/SearchBar';
 // import SearchResults from '../components/SearchResults';
 

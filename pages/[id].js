@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { getSingleBook } from '../api/promises';
-import BookCard from '../components/BookCard';
 
 function ViewBook() {
   const [viewBook, setViewBook] = useState([]);
@@ -12,8 +11,14 @@ function ViewBook() {
     getSingleBook(id).then(setViewBook);
   }, [id]);
 
+  console.warn(viewBook);
+
   return (
-    <BookCard bookObj={viewBook} />
+    <>
+      <h1>{viewBook?.volumeInfo?.title}</h1>
+      <p>{viewBook?.volumeInfo?.authors}</p>
+      <p>{viewBook?.volumeInfo?.description}</p>
+    </>
   );
 }
 
