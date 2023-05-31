@@ -1,5 +1,5 @@
 import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
+// import Button from 'react-bootstrap/Button';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 
@@ -30,7 +30,7 @@ export default function BookCard({ bookObj }) {
             <Card.Text>
               {bookObj.volumeInfo.authors}
             </Card.Text>
-            <Link href="/TBR" passHref>
+            {/* <Link href="/TBR" passHref>
               <Button variant="primary">TBR</Button>
             </Link>
             <Link href="/currentlyReading" passHref>
@@ -38,7 +38,7 @@ export default function BookCard({ bookObj }) {
             </Link>
             <Link href="/read" passHref>
               <Button variant="primary">Read</Button>
-            </Link>
+            </Link> */}
           </Card.Body>
         </Card>
       </Link>
@@ -53,6 +53,9 @@ BookCard.propTypes = {
       authors: PropTypes.arrayOf,
       description: PropTypes.string,
       imageLinks: PropTypes.obj,
+      TBR: PropTypes.bool,
+      read: PropTypes.bool,
+      reading: PropTypes.bool,
     }),
   ),
 };
