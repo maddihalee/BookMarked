@@ -2,10 +2,10 @@ import { useRouter } from 'next/router';
 import Form from 'react-bootstrap/Form';
 import { useEffect, useState } from 'react';
 import { getSingleBook } from '../api/promises';
+// import useLocalStorage from '../utils/useLocalStorage';
 
 function ViewBook() {
   const [viewBook, setViewBook] = useState([]);
-  // const [formInput, setFormInput] = useState(false);
   const [tbr, setTbr] = useState(false);
   // const [read, setRead] = useState(false);
   // const [reading, setReading] = useState(false);
@@ -22,6 +22,20 @@ function ViewBook() {
       query: { book: JSON.stringify(viewBook) },
     });
   };
+
+  const handleTbrToggle = (e) => {
+    const isChecked = e.target.checked;
+    setTbr(isChecked);
+    addToTbr();
+    localStorage.setItem('tbrState', isChecked ? 'true' : 'false');
+  };
+
+  // useEffect(() => {
+  //   const savedTbrState = localStorage.getItem('tbrState');
+  //   if (savedTbrState === 'true') {
+  //     setTbr(true);
+  //   }
+  // }, []);
 
   console.warn(viewBook);
 
@@ -42,10 +56,7 @@ function ViewBook() {
         name="tbr"
         label="TBR"
         checked={tbr.tbr}
-        onChange={(e) => {
-          setTbr(e.target.checked);
-          addToTbr();
-        }}
+        onChange={handleTbrToggle}
       />
       <h1>{viewBook?.volumeInfo?.title}</h1>
       <p>{viewBook?.volumeInfo?.authors}</p>

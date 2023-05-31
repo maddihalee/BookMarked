@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import BookCard from '../components/BookCard';
 
@@ -5,13 +6,26 @@ export default function TBRPage() {
   const router = useRouter();
   const { book } = router.query;
 
-  let parsedBooks = [];
+  const [parsedBooks, setParsedBooks] = useState([]);
 
-  if (Array.isArray(book)) {
-    parsedBooks = book.map((bookObj) => JSON.parse(bookObj));
-  } else if (book) {
-    parsedBooks = [JSON.parse(book)];
-  }
+  useEffect(() => {
+    // Retrieve the TBR books from local storage
+    const savedTbrBooks = localStorage.getItem('tbrBooks');
+
+    if (savedTbrBooks) {
+      const parsedTbrBooks = JSON.parse(savedTbrBooks);
+      setParsedBooks(parsedTbrBooks);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (Array.isArray(book)) {
+      setParsedBooks(book.map((bookObj) => JSON.parse(bookObj)));
+    } else if (book) {
+      setParsedBooks([JSON.parse(book)]);
+    }
+  }, [book]);
+
 
   return (
     <>
