@@ -26,10 +26,9 @@ export default function TBRPage() {
     }
   }, [book]);
 
-
   return (
     <>
-      {parsedBooks.map((parsedBook) => (
+      {parsedBooks?.map((parsedBook) => (
         <BookCard bookObj={parsedBook} key={parsedBook.id} />
       ))}
     </>
