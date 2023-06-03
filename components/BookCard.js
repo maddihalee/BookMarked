@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 export default function BookCard({ bookObj }) {
   return (
     <>
-      <Link href={`/${bookObj.id}`} passHref>
+      <Link href={`/${bookObj?.id}`} passHref>
         <Card
           style={{
             height: '400px',
@@ -23,12 +23,12 @@ export default function BookCard({ bookObj }) {
               width: '250px',
             }}
             variant="top"
-            src={bookObj.volumeInfo.imageLinks.smallThumbnail}
+            src={bookObj?.volumeInfo?.imageLinks?.smallThumbnail}
           />
           <Card.Body>
-            <Card.Title>{bookObj.volumeInfo.title}</Card.Title>
+            <Card.Title>{bookObj?.volumeInfo?.title}</Card.Title>
             <Card.Text>
-              {bookObj.volumeInfo.authors}
+              {bookObj?.volumeInfo?.authors}
             </Card.Text>
             {/* <Link href="/TBR" passHref>
               <Button variant="primary">TBR</Button>

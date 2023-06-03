@@ -21,10 +21,10 @@ export default function TBRPage() {
   useEffect(() => {
     if (Array.isArray(book)) {
       setParsedBooks(book.map((bookObj) => JSON.parse(bookObj)));
-      localStorage.setItem('tbrBooks', JSON.stringify(book));
+      // localStorage.setItem('tbrBooks', JSON.stringify(book));
     } else if (book) {
       setParsedBooks([JSON.parse(book)]);
-      localStorage.setItem('tbrBooks', JSON.stringify([book]));
+      // localStorage.setItem('tbrBooks', JSON.stringify([book]));
     }
   }, [book]);
 
