@@ -27,15 +27,18 @@ function ViewBook() {
     const isChecked = e.target.checked;
     setTbr(isChecked);
     addToTbr();
-    localStorage.setItem('tbrState', isChecked ? 'true' : 'false');
   };
 
-  // useEffect(() => {
-  //   const savedTbrState = localStorage.getItem('tbrState');
-  //   if (savedTbrState === 'true') {
-  //     setTbr(true);
-  //   }
-  // }, []);
+  useEffect(() => {
+    localStorage.setItem('tbrState', tbr ? 'true' : 'false');
+  }, [tbr]);
+
+  useEffect(() => {
+    const savedTbrState = localStorage.getItem('tbrState');
+    if (savedTbrState === 'true') {
+      setTbr(true);
+    }
+  }, []);
 
   console.warn(viewBook);
 
