@@ -1,37 +1,26 @@
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
 import BookCard from '../components/BookCard';
+import { getUserBooks } from '../api/promises';
+import { useAuth } from '../utils/context/authContext';
 
 export default function TBRPage() {
-  const router = useRouter();
-  const { book } = router.query;
+  // const router = useRouter();
+  const { user } = useAuth();
 
-  const [parsedBooks, setParsedBooks] = useState([]);
+  const [parseBooks, setParseBooks] = useState([]);
+
+  const getUidBooks = () => {
+    getUserBooks(user.uid).then(setParseBooks);
+  };
 
   useEffect(() => {
-    // Retrieve the TBR books from local storage
-    const savedTbrBooks = localStorage.getItem('tbrBooks');
-
-    if (savedTbrBooks) {
-      const parsedTbrBooks = JSON.parse(savedTbrBooks);
-      setParsedBooks(parsedTbrBooks);
-    }
+    getUidBooks();
   }, []);
-
-  useEffect(() => {
-    if (Array.isArray(book)) {
-      setParsedBooks(book.map((bookObj) => JSON.parse(bookObj)));
-      // localStorage.setItem('tbrBooks', JSON.stringify(book));
-    } else if (book) {
-      setParsedBooks([JSON.parse(book)]);
-      // localStorage.setItem('tbrBooks', JSON.stringify([book]));
-    }
-  }, [book]);
 
   return (
     <>
-      {parsedBooks?.map((parsedBook) => (
-        <BookCard bookObj={parsedBook} key={parsedBook.id} />
+      {parseBooks?.map((parseBook) => (
+        <BookCard bookObj={parseBook} key={parseBook.id} onUpdate={getUidBooks} bookId={parseBook.bookId} />
       ))}
     </>
   );

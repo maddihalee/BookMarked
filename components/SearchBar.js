@@ -10,15 +10,12 @@ export default function SearchBar({ books, query, setQuery }) {
   console.warn(filteredBooks);
   return (
     <>
-      {/* <form> */}
       <input
         type="text"
         value={query}
         onChange={handleChange}
         placeholder="Search Books..."
       />
-      {/* <button type="submit">Search</button>
-      </form> */}
       <div className="filteredBooks">
         {filteredBooks?.map((filterBook) => (<BookCard bookObj={filterBook} />))}
       </div>
