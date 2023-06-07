@@ -1,12 +1,24 @@
 import Card from 'react-bootstrap/Card';
 // import Button from 'react-bootstrap/Button';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { getSingleBook } from '../api/promises';
 
-export default function BookCard({ bookObj }) {
+export default function BookCard({ bookObj, bookId }) {
+  const [googleBook, setGoogleBook] = useState();
+
+  useEffect(() => {
+    if (bookObj.id) {
+      setGoogleBook(bookObj);
+    } else {
+      getSingleBook(bookId).then(setGoogleBook);
+    }
+  }, []);
+
   return (
     <>
-      <Link href={`/${bookObj?.id}`} passHref>
+      <Link href={`/${googleBook?.id}`} passHref>
         <Card
           style={{
             height: '400px',
@@ -23,22 +35,13 @@ export default function BookCard({ bookObj }) {
               width: '250px',
             }}
             variant="top"
-            src={bookObj?.volumeInfo?.imageLinks?.smallThumbnail}
+            src={googleBook?.volumeInfo?.imageLinks?.smallThumbnail}
           />
           <Card.Body>
-            <Card.Title>{bookObj?.volumeInfo?.title}</Card.Title>
+            <Card.Title>{googleBook?.volumeInfo?.title}</Card.Title>
             <Card.Text>
-              {bookObj?.volumeInfo?.authors}
+              {googleBook?.volumeInfo?.authors}
             </Card.Text>
-            {/* <Link href="/TBR" passHref>
-              <Button variant="primary">TBR</Button>
-            </Link>
-            <Link href="/currentlyReading" passHref>
-              <Button variant="primary">Reading</Button>
-            </Link>
-            <Link href="/read" passHref>
-              <Button variant="primary">Read</Button>
-            </Link> */}
           </Card.Body>
         </Card>
       </Link>
@@ -56,10 +59,13 @@ BookCard.propTypes = {
       TBR: PropTypes.bool,
       read: PropTypes.bool,
       reading: PropTypes.bool,
+      id: PropTypes.string,
     }),
   ),
+  bookId: PropTypes.string,
 };
 
 BookCard.defaultProps = {
   bookObj: [],
+  bookId: '',
 };

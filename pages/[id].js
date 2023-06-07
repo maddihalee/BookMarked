@@ -1,68 +1,42 @@
 import { useRouter } from 'next/router';
 import Form from 'react-bootstrap/Form';
 import { useEffect, useState } from 'react';
-import { getSingleBook } from '../api/promises';
+import {
+  checkedBooks, removeBooks, saveBooks,
+} from '../api/promises';
+// import ReviewForm from '../components/ReviewForm';
+import { useAuth } from '../utils/context/authContext';
+// import ReviewBox from '../components/ReviewBox';
 
 function ViewBook() {
   const [viewBook, setViewBook] = useState([]);
-  const [tbr, setTbr] = useState(false);
   // const [read, setRead] = useState(false);
   // const [reading, setReading] = useState(false);
   const router = useRouter();
   const { id } = router.query;
+  const { user } = useAuth();
 
   useEffect(() => {
-    getSingleBook(id).then(setViewBook);
-  }, [id]);
-
-  const addToTbr = () => {
-    router.push({
-      pathname: '/TBR',
-      query: {
-        book: JSON.stringify(viewBook),
-        tbr: tbr ? 'true' : 'false',
-      },
-    });
-    if (tbr) {
-      // Add the book to TBR
-      const savedTbrBooks = localStorage.getItem('tbrBooks');
-      const parsedTbrBooks = savedTbrBooks ? JSON.parse(savedTbrBooks) : [];
-      const updatedTbrBooks = [...parsedTbrBooks, viewBook];
-      localStorage.setItem('tbrBooks', JSON.stringify(updatedTbrBooks));
-    } else {
-      // Remove the book from TBR
-      const savedTbrBooks = localStorage.getItem('tbrBooks');
-      if (savedTbrBooks) {
-        const parsedTbrBooks = JSON.parse(savedTbrBooks);
-        const updatedTbrBooks = parsedTbrBooks.filter((book) => book.id !== viewBook.id);
-        localStorage.setItem('tbrBooks', JSON.stringify(updatedTbrBooks));
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (tbr) {
-      addToTbr();
-    }
-  }, [tbr]);
-
-  useEffect(() => {
-    localStorage.setItem('tbrState', tbr ? 'true' : 'false');
-  }, [tbr]);
-
-  useEffect(() => {
-    const savedTbrState = localStorage.getItem('tbrState');
-    if (savedTbrState !== null && savedTbrState !== '') {
-      setTbr(savedTbrState === 'true');
-    }
+    checkedBooks(id, user.uid).then(setViewBook);
   }, []);
 
-  const handleTbrToggle = (e) => {
-    const isChecked = e.target.checked;
-    setTbr(isChecked);
+  const handleTbrToggle = () => {
+    const savedBook = {
+      bookId: viewBook.id,
+      isReading: !viewBook.firebaseBook.isReading,
+      uid: user.uid,
+      bookTitle: viewBook.volumeInfo.title,
+    };
+    if (savedBook.isReading === true) {
+      saveBooks(savedBook).then(router.push({ pathname: '/TBR' }));
+    } else {
+      removeBooks(savedBook).then(router.push({ pathname: '/' }));
+    }
   };
 
-  console.warn(viewBook);
+  // const getBookReviews = () => getReviewsByBookId(viewBook.id).then();
+
+  // console.warn(viewBook);
 
   return (
     <>
@@ -80,12 +54,13 @@ function ViewBook() {
         id="tbr"
         name="tbr"
         label="TBR"
-        checked={tbr}
+        checked={viewBook?.firebaseBook?.isReading}
         onChange={handleTbrToggle}
       />
       <h1>{viewBook?.volumeInfo?.title}</h1>
       <p>{viewBook?.volumeInfo?.authors}</p>
       <p>{viewBook?.volumeInfo?.description}</p>
+      {/* <ReviewForm bookId={viewBook.id} onUpdate={getBookReviews} /> */}
     </>
   );
 }
