@@ -13,6 +13,11 @@ export default function ReviewBox({ revObj, onUpdate }) {
     setShowEditReviews(true);
   };
 
+  const anotherUpdate = () => {
+    setShowEditReviews(false);
+    onUpdate();
+  };
+
   return (
     <div className="d-flex flex-column mb-2">
       <div className="d-flex flex-row">
@@ -21,7 +26,7 @@ export default function ReviewBox({ revObj, onUpdate }) {
           <h6 className="comment-name by-author"><a href="http://creaticode.com/blog">{revObj?.userName}</a></h6>
           {revObj?.review}
         </div>
-        { user.uid === revObj.userId ? (
+        { user.uid === revObj.userId && !showEditReviews ? (
           <div className="text-right m-2" style={{ textAlign: 'right' }}>
             <Button
               type="submit"
@@ -33,7 +38,7 @@ export default function ReviewBox({ revObj, onUpdate }) {
         )
           : '' }
       </div>
-      {showEditReviews ? <EditReviews onClick={onUpdate} revObj={showEditReviews} /> : ''}
+      {showEditReviews ? <EditReviews revObj={revObj} onUpdate={anotherUpdate} /> : ''}
     </div>
   );
 }

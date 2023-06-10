@@ -1,28 +1,24 @@
 import { Form, Button, Card } from 'react-bootstrap';
 import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useRouter } from 'next/router';
 import { useAuth } from '../utils/context/authContext';
-import { getSingleReviews, updateReview } from '../api/promises';
+import { updateReview } from '../api/promises';
 
-export default function EditReviews({ onUpdate }) {
+export default function EditReviews({ revObj, onUpdate }) {
   const { user } = useAuth();
-  const router = useRouter();
-  const [editReview, setEditReview] = useState();
-  const { firebaseKey } = router.query;
+  const [editReview, setEditReview] = useState('');
 
   const handleClick = (e) => {
     e.preventDefault();
-    updateReview(firebaseKey, editReview).then(() => {
-      onUpdate();
-    });
+    updateReview(editReview).then(() => onUpdate());
   };
 
   useEffect(() => {
-    if (firebaseKey) {
-      getSingleReviews(firebaseKey).then((review) => setEditReview(review));
-    }
-  }, [firebaseKey]);
+    // if (firebaseKey) {
+    //   getSingleReviews(firebaseKey).then((review) => setEditReview(review));
+    // }
+    setEditReview(revObj);
+  }, [revObj]);
 
   return (
     <div className="d-flex flex-column" id="review-conainer" style={{ width: '1400px' }}>
@@ -46,7 +42,7 @@ export default function EditReviews({ onUpdate }) {
           />
         </div>
         <div className="text-right m-2" style={{ textAlign: 'right' }}>
-          <Button type="submit" onClick={onUpdate} style={{ borderRadius: '30px', height: '40px', fontWeight: '600' }}>Edit Review</Button>
+          <Button type="submit" onClick={handleClick} style={{ borderRadius: '30px', height: '40px', fontWeight: '600' }}>Update Review</Button>
         </div>
       </Form>
     </div>
@@ -54,9 +50,21 @@ export default function EditReviews({ onUpdate }) {
 }
 
 EditReviews.propTypes = {
+  revObj: PropTypes.shape({
+    userName: PropTypes.string,
+    review: PropTypes.string,
+    user_photo: PropTypes.string,
+    bookId: PropTypes.string,
+    userId: PropTypes.string,
+  }),
   onUpdate: PropTypes.func,
 };
 
 EditReviews.defaultProps = {
+  revObj: PropTypes.shape({
+    userName: '',
+    review: '',
+    userId: '',
+  }),
   onUpdate: () => {},
 };
