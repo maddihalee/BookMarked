@@ -1,30 +1,17 @@
 import PropTypes from 'prop-types';
-import { useRouter } from 'next/router';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
-import { Button, Form, Card } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
+import { useState } from 'react';
 import { useAuth } from '../utils/context/authContext';
-import { getSingleReviews, updateReview } from '../api/promises';
+import EditReviews from './EditReviewBox';
 
 export default function ReviewBox({ revObj, onUpdate }) {
   const { user } = useAuth();
-  const { router } = useRouter();
-  const [editReview, setEditReview] = useState();
-  const { firebaseKey } = router.query;
+  const [showEditReviews, setShowEditReviews] = useState(false);
 
-  const handleClick = (e) => {
-    const { name, value } = e.target;
-    setEditReview((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+  const handleEditClick = () => {
+    setShowEditReviews(true);
   };
-
-  useEffect(() => {
-    if (firebaseKey) {
-      getSingleReviews(firebaseKey).then((updateReview(setEditReview)));
-    }
-  }, [firebaseKey]);
 
   return (
     <div className="d-flex flex-column mb-2">
@@ -36,33 +23,17 @@ export default function ReviewBox({ revObj, onUpdate }) {
         </div>
         { user.uid === revObj.userId ? (
           <div className="text-right m-2" style={{ textAlign: 'right' }}>
-            <Button type="submit" onClick={onUpdate} style={{ borderRadius: '30px', height: '40px', fontWeight: '600' }}>Edit Review</Button>
+            <Button
+              type="submit"
+              onClick={handleEditClick}
+              style={{ borderRadius: '30px', height: '40px', fontWeight: '600' }}
+            >Edit Review
+            </Button>
           </div>
         )
           : '' }
       </div>
-      { editReview === true ? (
-        <div className="d-flex flex-column" id="review-conainer" style={{ width: '1400px' }}>
-          <Form onSubmit={handleClick} className="d-flex">
-            <div className="d-flex" style={{ width: '1069px' }}>
-              <Card.Img src={user?.photoURL} style={{ width: '50px', borderRadius: '100px' }} className="me-3 d-flex flex-column" />
-              <Form.Control
-                type="text"
-                placeholder="Add a review..."
-                name="review"
-                value={editReview.review}
-                onChange={handleClick}
-                className="d-flex"
-                required
-              />
-            </div>
-            <div className="text-right m-2" style={{ textAlign: 'right' }}>
-              <Button type="submit" onClick={onUpdate} style={{ borderRadius: '30px', height: '40px', fontWeight: '600' }}>Edit Review</Button>
-            </div>
-          </Form>
-        </div>
-      )
-        : '' }
+      {showEditReviews ? <EditReviews onClick={onUpdate} revObj={showEditReviews} /> : ''}
     </div>
   );
 }

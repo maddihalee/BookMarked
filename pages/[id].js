@@ -36,8 +36,6 @@ function ViewBook() {
 
   const getBookReviews = () => getReviewsByBookId(viewBook.id).then();
 
-  // console.warn(viewBook);
-
   return (
     <>
       <img
