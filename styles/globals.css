@@ -27,3 +27,7 @@ body {
   grid-template-rows: 500px 500px 500px 500px;
   grid-gap: 20px;
 }
+
+.review-avatar {
+  border-radius: 50%;
+}

@@ -3,23 +3,20 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import PropTypes from 'prop-types';
-import { useRouter } from 'next/router';
+// import { useRouter } from 'next/router';
 import { useAuth } from '../utils/context/authContext';
-import { getReviewsByBookId, createReview, updateReview } from '../api/promises';
 import ReviewBox from './ReviewBox';
+import { getReviewsByBookId, updateReview, createReview } from '../api/promises';
 
 const initialState = '';
 
 export default function ReviewForm({ bookId, onUpdate }) {
   const [formInput, setFormInput] = useState(initialState);
-  const { user } = useAuth;
-  const { id } = useRouter();
+  const { user } = useAuth();
   const [reviews, setReviews] = useState();
 
   useEffect(() => {
-    console.warn('Fetching reviews for bookId:', bookId);
     getReviewsByBookId(bookId).then((data) => {
-      console.warn('Received reviews data:', data);
       setReviews(data);
     });
   }, [bookId]);
@@ -35,7 +32,11 @@ export default function ReviewForm({ bookId, onUpdate }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const payload = {
-      ...formInput, userName: user.displayName, user_photo: user.photoURL, book_id: id,
+      ...formInput,
+      userName: user.displayName,
+      user_photo: user.photoURL,
+      bookId,
+      userId: user.uid,
     };
     createReview(payload).then(({ name }) => {
       const patchPayload = { firebaseKey: name };
@@ -48,12 +49,12 @@ export default function ReviewForm({ bookId, onUpdate }) {
 
   return (
     <>
-      {user ? (
+      { user ? (
         <>
           <div className="d-flex flex-column" id="review-conainer" style={{ width: '1400px' }}>
             <Form onSubmit={handleSubmit} className="d-flex">
               <div className="d-flex" style={{ width: '1069px' }}>
-                <Card.Img src={user.photoURL} style={{ width: '50px', borderRadius: '100px' }} className="me-3 d-flex flex-column" />
+                <Card.Img src={user?.photoURL} style={{ width: '50px', borderRadius: '100px' }} className="me-3 d-flex flex-column" />
                 <Form.Control
                   type="text"
                   placeholder="Add a review..."

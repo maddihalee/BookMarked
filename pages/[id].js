@@ -2,9 +2,9 @@ import { useRouter } from 'next/router';
 import Form from 'react-bootstrap/Form';
 import { useEffect, useState } from 'react';
 import {
-  checkedBooks, removeBooks, saveBooks,
+  checkedBooks, removeBooks, saveBooks, getReviewsByBookId,
 } from '../api/promises';
-// import ReviewForm from '../components/ReviewForm';
+import ReviewForm from '../components/ReviewForm';
 import { useAuth } from '../utils/context/authContext';
 // import ReviewBox from '../components/ReviewBox';
 
@@ -34,7 +34,7 @@ function ViewBook() {
     }
   };
 
-  // const getBookReviews = () => getReviewsByBookId(viewBook.id).then();
+  const getBookReviews = () => getReviewsByBookId(viewBook.id).then();
 
   // console.warn(viewBook);
 
@@ -60,7 +60,7 @@ function ViewBook() {
       <h1>{viewBook?.volumeInfo?.title}</h1>
       <p>{viewBook?.volumeInfo?.authors}</p>
       <p>{viewBook?.volumeInfo?.description}</p>
-      {/* <ReviewForm bookId={viewBook.id} onUpdate={getBookReviews} /> */}
+      <ReviewForm bookId={viewBook?.id} onUpdate={getBookReviews} />
     </>
   );
 }
