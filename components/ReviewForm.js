@@ -15,10 +15,14 @@ export default function ReviewForm({ bookId, onUpdate }) {
   const { user } = useAuth();
   const [reviews, setReviews] = useState();
 
-  useEffect(() => {
+  const getReviews = () => {
     getReviewsByBookId(bookId).then((data) => {
       setReviews(data);
     });
+  };
+
+  useEffect(() => {
+    getReviews();
   }, [bookId]);
 
   const handleChange = (e) => {
@@ -71,7 +75,7 @@ export default function ReviewForm({ bookId, onUpdate }) {
             </Form>
           </div>
           <div className="list-reviews">
-            {reviews?.map((review) => <ReviewBox revObj={review} bookId={review.id} />)}
+            {reviews?.map((review) => <ReviewBox onUpdate={getReviews} revObj={review} bookId={review.id} />)}
           </div>
         </>
       ) : (
