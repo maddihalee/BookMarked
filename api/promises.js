@@ -35,44 +35,6 @@ const getSingleBook = (id) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const getReviewsByBookId = (bookId) => new Promise((resolve, reject) => {
-  fetch(`${firebaseUrl}/reviews?orderBy="bookId"&equalTo="${bookId}"`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-    .then((response) => response.json())
-    .then((data) => resolve(Object.values(data)))
-    .catch(reject);
-});
-
-const createReview = (payload) => new Promise((resolve, reject) => {
-  fetch(`${firebaseUrl}/reviews.json`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
-  })
-    .then((response) => response.json())
-    .then((data) => resolve(data))
-    .catch(reject);
-});
-
-const updateReview = (payload) => new Promise((resolve, reject) => {
-  fetch(`${firebaseUrl}/reviews/${payload.firebaseKey}.json`, {
-    method: 'PATCH',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
-  })
-    .then((response) => response.json())
-    .then(resolve)
-    .catch(reject);
-});
-
 const saveBooks = (payload) => new Promise((resolve, reject) => {
   fetch(`${firebaseUrl}/books.json`, {
     method: 'POST',
@@ -142,6 +104,56 @@ const checkedBooks = (bookId, uid) => new Promise((resolve, reject) => {
     .catch((error) => reject(error));
 });
 
+const createReview = (payload) => new Promise((resolve, reject) => {
+  fetch(`${firebaseUrl}/reviews.json`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  })
+    .then((response) => response.json())
+    .then((data) => resolve(data))
+    .catch(reject);
+});
+
+const getSingleReviews = (firebaseKey) => new Promise((resolve, reject) => {
+  fetch(`${firebaseUrl}/reviews/${firebaseKey}.json`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => resolve(data))
+    .catch(reject);
+});
+
+const updateReview = (payload) => new Promise((resolve, reject) => {
+  fetch(`${firebaseUrl}/reviews/${payload.firebaseKey}.json`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  })
+    .then((response) => response.json())
+    .then(resolve)
+    .catch(reject);
+});
+
+const getReviewsByBookId = (bookId) => new Promise((resolve, reject) => {
+  fetch(`${firebaseUrl}/reviews.json?orderBy="bookId"&equalTo="${bookId}"`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => resolve(Object.values(data)))
+    .catch(reject);
+});
+
 export {
-  getBooks, getSingleBook, getReviewsByBookId, createReview, updateReview, saveBooks, removeBooks, getfirebaseBook, checkedBooks, getUserBooks,
+  getBooks, getSingleBook, saveBooks, removeBooks, getfirebaseBook, checkedBooks, getUserBooks, createReview, updateReview, getReviewsByBookId, getSingleReviews,
 };
