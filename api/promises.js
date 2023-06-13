@@ -44,19 +44,18 @@ const saveBooks = (payload) => new Promise((resolve, reject) => {
     body: JSON.stringify(payload),
   })
     .then((response) => response.json())
-    .then(resolve)
+    .then((data) => resolve(data))
     .catch(reject);
 });
 
-const removeBooks = (bookId) => new Promise((resolve, reject) => {
-  fetch(`${firebaseUrl}/books/${bookId}.json`, {
-    method: 'DELETE',
+const updateBooks = (newObj) => new Promise((resolve, reject) => {
+  fetch(`${firebaseUrl}/books/${newObj.firebaseKey}.json`, {
+    method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
     },
-  })
-    .then((response) => response.json())
-    .then((data) => resolve(data))
+    body: JSON.stringify(newObj),
+  }).then(resolve)
     .catch(reject);
 });
 
@@ -90,6 +89,18 @@ const getfirebaseBook = (bookId, uid) => new Promise((resolve, reject) => {
       const firebaseBook = Object.values(data).filter((item) => item.bookId === bookId);
       resolve(firebaseBook);
     })
+    .catch(reject);
+});
+
+const removeBooks = (firebaseKey) => new Promise((resolve, reject) => {
+  fetch(`${firebaseUrl}/books/${firebaseKey}.json`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => resolve(data))
     .catch(reject);
 });
 
@@ -155,5 +166,5 @@ const getReviewsByBookId = (bookId) => new Promise((resolve, reject) => {
 });
 
 export {
-  getBooks, getSingleBook, saveBooks, removeBooks, getfirebaseBook, checkedBooks, getUserBooks, createReview, updateReview, getReviewsByBookId, getSingleReviews,
+  getBooks, getSingleBook, saveBooks, removeBooks, getfirebaseBook, updateBooks, checkedBooks, getUserBooks, createReview, updateReview, getReviewsByBookId, getSingleReviews,
 };

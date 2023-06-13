@@ -15,6 +15,7 @@ export default function SearchBar({ books, query, setQuery }) {
         value={query}
         onChange={handleChange}
         placeholder="Search Books..."
+        className="search-bar"
       />
       <div className="filteredBooks">
         {filteredBooks?.map((filterBook) => (<BookCard bookObj={filterBook} />))}

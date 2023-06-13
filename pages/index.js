@@ -20,7 +20,7 @@ function Home() {
 
   return (
     <div>
-      <h1>Google Books Search</h1>
+      <h1>Search for Books</h1>
       <SearchBar books={books[2]} query={query} setQuery={setQuery} />
     </div>
   );
