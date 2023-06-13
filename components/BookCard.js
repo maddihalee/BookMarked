@@ -38,9 +38,9 @@ export default function BookCard({ bookObj, bookId }) {
             src={googleBook?.volumeInfo?.imageLinks?.smallThumbnail}
           />
           <Card.Body>
-            <Card.Title>{googleBook?.volumeInfo?.title}</Card.Title>
+            <Card.Title className="titleBook">{googleBook?.volumeInfo?.title}</Card.Title>
             <Card.Text>
-              {googleBook?.volumeInfo?.authors}
+              {googleBook?.volumeInfo?.authors?.[0]}
             </Card.Text>
           </Card.Body>
         </Card>

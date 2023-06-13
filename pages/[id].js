@@ -1,14 +1,15 @@
 import { useRouter } from 'next/router';
 import Form from 'react-bootstrap/Form';
 import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import {
-  checkedBooks, removeBooks, saveBooks, getReviewsByBookId,
+  checkedBooks, removeBooks, saveBooks, getReviewsByBookId, updateBooks,
 } from '../api/promises';
 import ReviewForm from '../components/ReviewForm';
 import { useAuth } from '../utils/context/authContext';
 // import ReviewBox from '../components/ReviewBox';
 
-function ViewBook() {
+function ViewBook({ onUpdate }) {
   const [viewBook, setViewBook] = useState([]);
   // const [read, setRead] = useState(false);
   // const [reading, setReading] = useState(false);
@@ -26,11 +27,17 @@ function ViewBook() {
       isReading: !viewBook.firebaseBook.isReading,
       uid: user.uid,
       bookTitle: viewBook.volumeInfo.title,
+      firebaseKey: viewBook.firebaseBook.firebaseKey,
     };
     if (savedBook.isReading === true) {
-      saveBooks(savedBook).then(router.push({ pathname: '/TBR' }));
+      saveBooks(savedBook).then(({ name }) => {
+        const patchPayload = { firebaseKey: name };
+        updateBooks(patchPayload).then(() => {
+          router.push({ pathname: '/TBR' });
+        });
+      });
     } else {
-      removeBooks(savedBook).then(router.push({ pathname: '/' }));
+      removeBooks(viewBook.firebaseBook.firebaseKey).then(() => onUpdate()).then(router.push({ pathname: '/TBR' }));
     }
   };
 
@@ -62,5 +69,13 @@ function ViewBook() {
     </>
   );
 }
+
+ViewBook.propTypes = {
+  onUpdate: PropTypes.func,
+};
+
+ViewBook.defaultProps = {
+  onUpdate: () => {},
+};
 
 export default ViewBook;

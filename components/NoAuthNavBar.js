@@ -7,7 +7,7 @@ import {
 
 export default function NoAuthNavBar() {
   return (
-    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" className="navbar">
       <Container>
         <Link passHref href="/">
           <Navbar.Brand>CHANGE ME</Navbar.Brand>
