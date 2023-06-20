@@ -5,6 +5,10 @@
 # The Problem
 People who read need a way to keep track of what books they are reading or want to read; they also need a place to leave reviews on books they've read so that they can remember what their thoughts on any given book were. 
 
+[Link to Wireframe](https://www.figma.com/file/sItZUB8k2ERE5UVZ2NKAFl/BookMarked?type=design&node-id=0-1&t=SHiBkZgsDi9lK6pt-0)
+
+[Link to ERD](https://dbdiagram.io/d/63c73fa4296d97641d7a54a7)
+
 ## Tech Stack
 - JavaScript / React
 - Google Books API
