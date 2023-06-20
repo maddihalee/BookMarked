@@ -48,13 +48,13 @@ const saveBooks = (payload) => new Promise((resolve, reject) => {
     .catch(reject);
 });
 
-const updateBooks = (newObj) => new Promise((resolve, reject) => {
-  fetch(`${firebaseUrl}/books/${newObj.firebaseKey}.json`, {
+const updateBooks = (payload) => new Promise((resolve, reject) => {
+  fetch(`${firebaseUrl}/books/${payload.firebaseKey}.json`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(newObj),
+    body: JSON.stringify(payload),
   }).then(resolve)
     .catch(reject);
 });

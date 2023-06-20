@@ -16,11 +16,8 @@ function Home() {
     });
   }, [query]);
 
-  // const filteredBooks = books.filter((book) => book.volumeInfo.title.toLowerCase().includes(query.toLowerCase()) || book.volumeInfo.authors.toLowerCase().includes(query.toLowerCase()));
-
   return (
     <div>
-      <h1>Search for Books</h1>
       <SearchBar books={books[2]} query={query} setQuery={setQuery} />
     </div>
   );
