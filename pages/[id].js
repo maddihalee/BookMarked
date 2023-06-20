@@ -1,7 +1,6 @@
 import { useRouter } from 'next/router';
 import Form from 'react-bootstrap/Form';
 import { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import {
   checkedBooks, removeBooks, saveBooks, getReviewsByBookId, updateBooks,
 } from '../api/promises';
@@ -9,10 +8,8 @@ import ReviewForm from '../components/ReviewForm';
 import { useAuth } from '../utils/context/authContext';
 // import ReviewBox from '../components/ReviewBox';
 
-function ViewBook({ onUpdate }) {
+function ViewBook() {
   const [viewBook, setViewBook] = useState([]);
-  // const [read, setRead] = useState(false);
-  // const [reading, setReading] = useState(false);
   const router = useRouter();
   const { id } = router.query;
   const { user } = useAuth();
@@ -37,7 +34,7 @@ function ViewBook({ onUpdate }) {
         });
       });
     } else {
-      removeBooks(viewBook.firebaseBook.firebaseKey).then(() => onUpdate()).then(router.push({ pathname: '/TBR' }));
+      removeBooks(viewBook.firebaseBook.firebaseKey).then(() => router.push({ pathname: '/TBR' }));
     }
   };
 
@@ -69,13 +66,5 @@ function ViewBook({ onUpdate }) {
     </>
   );
 }
-
-ViewBook.propTypes = {
-  onUpdate: PropTypes.func,
-};
-
-ViewBook.defaultProps = {
-  onUpdate: () => {},
-};
 
 export default ViewBook;

@@ -14,9 +14,6 @@ export default function EditReviews({ revObj, onUpdate }) {
   };
 
   useEffect(() => {
-    // if (firebaseKey) {
-    //   getSingleReviews(firebaseKey).then((review) => setEditReview(review));
-    // }
     setEditReview(revObj);
   }, [revObj]);
 

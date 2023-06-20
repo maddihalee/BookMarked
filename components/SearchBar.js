@@ -6,7 +6,7 @@ export default function SearchBar({ books, query, setQuery }) {
     setQuery(e.target.value);
   };
 
-  const filteredBooks = books.filter((book) => book.volumeInfo.title.toLowerCase().includes(query.toLowerCase()));
+  const filteredBooks = books.filter((book) => book.volumeInfo.title.toLowerCase().includes(query.toLowerCase()) || book.volumeInfo.authors?.[0].toLowerCase().includes(query.toLowerCase()));
   console.warn(filteredBooks);
   return (
     <>

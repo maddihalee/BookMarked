@@ -4,6 +4,7 @@ import Link from 'next/link';
 import {
   Navbar, Container, Nav, Button,
 } from 'react-bootstrap';
+import Image from 'next/image';
 import { signOut } from '../utils/auth';
 
 export default function NavBarAuth() {
@@ -11,7 +12,12 @@ export default function NavBarAuth() {
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
       <Container>
         <Link passHref href="/">
-          <Navbar.Brand>📚BookMarked📚</Navbar.Brand>
+          <Navbar.Brand><Image
+            src="/../public/BookMarked.png"
+            width="50px"
+            height="50px"
+          />
+          </Navbar.Brand>
         </Link>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
@@ -23,12 +29,12 @@ export default function NavBarAuth() {
             <Link passHref href="/TBR">
               <Nav.Link>TBR</Nav.Link>
             </Link>
-            <Link passHref href="/currentlyReading">
+            {/* <Link passHref href="/currentlyReading">
               <Nav.Link>Currently Reading</Nav.Link>
             </Link>
             <Link passHref href="/read">
               <Nav.Link>Read</Nav.Link>
-            </Link>
+            </Link> */}
             <Link passHref href="/profile">
               <Nav.Link>Profile</Nav.Link>
             </Link>
