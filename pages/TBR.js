@@ -18,10 +18,10 @@ export default function TBRPage() {
   }, []);
 
   return (
-    <>
+    <div className="tbrBox">
       {parseBooks?.map((parseBook) => (
         <BookCard bookObj={parseBook} key={parseBook.id} onUpdate={getUidBooks} bookId={parseBook.bookId} />
       ))}
-    </>
+    </div>
   );
 }
